@@ -1,0 +1,55 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type CarEntity {
+  id: String!
+
+  """the name of company"""
+  maker: String!
+
+  """the name of car model"""
+  model: String!
+
+  """the price of car"""
+  price: Float!
+
+  """type of car like 'SUV','coupe','sedan',''etc """
+  type: String
+  description: String
+  owner: String!
+}
+
+type Query {
+  getCars: [CarEntity!]!
+}
+
+type Mutation {
+  createCar(createCarDto: CreateCarDto!): CarEntity!
+  getCarById(findCarDto: FindCarDto!): CarEntity!
+  removeCar(removeCarDto: FindCarDto!): CarEntity!
+  updateCar(updateCarDto: UpdateCarDto!): CarEntity!
+}
+
+input CreateCarDto {
+  maker: String!
+  model: String!
+  price: Int!
+  type: String
+  description: String
+  owner: String
+}
+
+input FindCarDto {
+  id: Float!
+}
+
+input UpdateCarDto {
+  id: String!
+  maker: String
+  model: String
+  price: Int
+  type: String
+  description: String
+  owner: String
+}

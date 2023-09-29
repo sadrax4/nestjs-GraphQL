@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: '!Sadra35289546'
+      MYSQL_DATABASE: 'cars'
+      MYSQL_USER: 'phpmyadmin'
+      MYSQL_PASSWORD: '!Sadra35289546'
+    ports:
+      - 30306:30306
