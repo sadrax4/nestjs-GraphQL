@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ServiceModule } from './resolve/service/service.module';
 import { CarsModule } from './cars/cars.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
@@ -9,10 +8,11 @@ import { ApolloDriver } from '@nestjs/apollo';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CarEntity } from './cars/car.entity';
 import { AuthModule } from './auth/auth.module';
-import { User } from './auth/entities/auth.entity';
+import { UserModule } from './user/user.module';
+import { UserEntity } from './user/entity/user.entity';
+
 @Module({
   imports: [
-    ServiceModule,
     CarsModule,
     //PassportModule.register({ defaultStrategy: 'jwt' }),
     GraphQLModule.forRoot({
@@ -27,11 +27,13 @@ import { User } from './auth/entities/auth.entity';
       password: "!Sadra35289546",
       entities: [
         CarEntity,
-        User
+        UserEntity
       ],
       port: 3306,
       synchronize: true,
     }),
+    AuthModule,
+    UserModule,
     // JwtModule.register({
     //   global: true,
     //   secret: "secret",
@@ -39,7 +41,6 @@ import { User } from './auth/entities/auth.entity';
     //     expiresIn: '1d'
     //   },
     //}),
-    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
@@ -48,5 +49,4 @@ export class AppModule {
 
 }
 
-//    entities: ["/dist/cars/*.entity.{ts,js}"],
-// entities: [__dirname + "/../**/*.entity.{js,ts}"],
+

@@ -46,7 +46,7 @@ export class CarEntity extends BaseEntity {
     )
     description?: string;
 
-    @Column({ type: String})
-    @Field(type => String)
-    owner: string;
+    // @Column({ type: String})
+    // @Field(type => String)
+    // owner: string;
 }

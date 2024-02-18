@@ -1,19 +1,39 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Req } from '@nestjs/common';
+import { Controller, Get, Post, Redirect, Req, Res, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { LoginDto, SigninDto } from './dto/user.dto';
-
+import { Request, Response } from 'express';
+import { UserService } from 'src/user/user.service';
+import { LocalAuthGuard } from './guards/local.auth.guard';
+import { GoogleAuthGuard } from './guards/google.auth.guard';
 
 @Controller('auth')
 export class AuthController {
-  constructor(
-    private readonly authService: AuthService,
-  ) { }
-  @Post("signin")
-  async signin(@Body() signinDto: SigninDto) {
-    return this.authService.singin(signinDto);
-  }
-  @Post("login")
-  async login(@Body() loginDto: LoginDto) {
-    return this.authService.login(loginDto);
-  }
+    constructor(
+        private authService: AuthService,
+        private userService: UserService
+    ) { }
+
+    @Get('google')
+    @UseGuards(GoogleAuthGuard)
+    auth() {
+        return
+    }
+
+    @Get('google/callback')
+    @UseGuards(GoogleAuthGuard)
+    async googleCallback(@Req() req: Request) {
+        return this.authService.handleGoogleAuth(req.user);
+    }
+
+
+    @Post('login')
+    @UseGuards(LocalAuthGuard)
+    login(@Req() req: Request) {
+        console.log(req);
+        return this.authService.login(req.user)
+    }
+
+    @Get("sms")
+    otp() {
+        return this.authService.authByOtp();
+    }
 }

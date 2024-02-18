@@ -17,11 +17,15 @@ type CarEntity {
   """type of car like 'SUV','coupe','sedan',''etc """
   type: String
   description: String
-  owner: String!
 }
 
 type Query {
   getCars: [CarEntity!]!
+  getCarByModel(getCarByModel: GetCarByModelDto!): [CarEntity!]!
+}
+
+input GetCarByModelDto {
+  model: String
 }
 
 type Mutation {
@@ -37,7 +41,6 @@ input CreateCarDto {
   price: Int!
   type: String
   description: String
-  owner: String
 }
 
 input FindCarDto {

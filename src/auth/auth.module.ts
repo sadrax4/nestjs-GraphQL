@@ -1,29 +1,25 @@
 import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { AuthController } from './auth.controller';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './entities/auth.entity';
-import { JwtModule } from '@nestjs/jwt';
+import { JwtStrategy } from './strategy/jwt.strategy';
+import { LocalStrategy } from './strategy/local.strategy';
 import { PassportModule } from '@nestjs/passport';
-import { JwtStrategy } from './guard/jwt.strategy';
-import { ConfigModule } from '@nestjs/config';
+import { JwtModule } from '@nestjs/jwt';
+import { JWT_SECRET } from './constant';
+import { AuthController } from './auth.controller';
+import { UserModule } from 'src/user/user.module';
+import { GoogleStrategy } from './strategy/google.strategy';
+
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User]),
-    PassportModule.register({ defaultStrategy: 'jwt' }),
+    UserModule,
+    PassportModule.register({ defaultStrategy: ['jwt', 'google'] }),
     JwtModule.register({
-      secret: 'JWT_SECRET',
-      global: true,
-      signOptions: {
-        expiresIn: '1d',
-      },
-    }),
-    ConfigModule
+      secret: JWT_SECRET,
+      signOptions: { expiresIn: 3600 }
+    })
   ],
-  controllers: [AuthController],
-  providers: [AuthService, JwtStrategy],
+  providers: [AuthService, JwtStrategy, LocalStrategy, GoogleStrategy],
+  controllers: [AuthController]
 })
-export class AuthModule {
-
-}
+export class AuthModule { }

@@ -5,7 +5,6 @@ import { Entity } from "typeorm";
 @InputType()
 export class CreateCarDto {
 
-
     @Field(type => String)
     @IsString()
     @IsNotEmpty()
@@ -22,7 +21,6 @@ export class CreateCarDto {
     price: number;
 
     @Field(type => String, { nullable: true })
-    @IsString()
     @ValidateIf((object, value) => value !== null)
     type?: "SUV" | "coupe" | "sedan" | "etc";
 
@@ -30,8 +28,8 @@ export class CreateCarDto {
     @ValidateIf((object, value) => value !== null)
     description?: string;
 
-    @Field(type => String, { nullable: true })
-    owner: string;
+    // @Field(type => String, { nullable: true })
+    // owner: string;
 }
 @InputType()
 export class UpdateCarDto {
@@ -67,6 +65,14 @@ export class FindCarDto {
     @IsNumber()
     @IsNotEmpty()
     id: number;
+}
+
+@InputType()
+export class GetCarByModelDto {
+
+    @Field(type => String, { nullable: true })
+    @IsString()
+    model?: string;
 }
 
 @Entity({ name: "message" })
